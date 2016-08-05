@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-: ${MMS_SERVER:=https://mms.mongodb.com}
-
 if [ ! "$MMS_API_KEY" ]; then
 	{
 		echo 'error: MMS_API_KEY was not specified'
@@ -10,14 +8,14 @@ if [ ! "$MMS_API_KEY" ]; then
 		echo '(see https://mms.mongodb.com/settings/monitoring-agent for your mmsApiKey)'
 		echo
 		echo 'Other optional variables:'
-		echo ' - MMS_SERVER='"$MMS_SERVER"
+		echo ' - MMS_GROUP_ID='"$MMS_GROUP_ID"
 	} >&2
 	exit 1
 fi
 
 # "sed -i" can't operate on the file directly, and it tries to make a copy in the same directory, which our user can't do
 config_tmp="$(mktemp)"
-cat /etc/mongodb-mms/monitoring-agent.config > "$config_tmp"
+cat /etc/mongodb-mms/automation-agent.config > "$config_tmp"
 
 set_config() {
 	key="$1"
@@ -27,7 +25,7 @@ set_config() {
 }
 
 set_config mmsApiKey "$MMS_API_KEY"
-set_config mmsBaseUrl "$MMS_SERVER"
+set_config mmsGroupId "$MMS_GROUP_ID"
 
 cat "$config_tmp" > /etc/mongodb-mms/monitoring-agent.config
 rm "$config_tmp"
