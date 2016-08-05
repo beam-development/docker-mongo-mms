@@ -7,8 +7,20 @@ if [ ! "$MMS_API_KEY" ]; then
 		echo 'try something like: docker run -e MMS_API_KEY=... ...'
 		echo '(see https://mms.mongodb.com/settings/monitoring-agent for your mmsApiKey)'
 		echo
-		echo 'Other optional variables:'
+		echo 'Other variables:'
 		echo ' - MMS_GROUP_ID='"$MMS_GROUP_ID"
+	} >&2
+	exit 1
+fi
+
+if [ ! "$MMS_GROUP_ID" ]; then
+	{
+		echo 'error: MMS_GROUP_ID was not specified'
+		echo 'try something like: docker run -e MMS_GROUP_ID=... ...'
+		echo '(see https://mms.mongodb.com/settings/monitoring-agent for your mmsApiKey)'
+		echo
+		echo 'Other variables:'
+		echo ' - MMS_API_KEY='"$MMS_API_KEY"
 	} >&2
 	exit 1
 fi
@@ -27,7 +39,7 @@ set_config() {
 set_config mmsApiKey "$MMS_API_KEY"
 set_config mmsGroupId "$MMS_GROUP_ID"
 
-cat "$config_tmp" > /etc/mongodb-mms/monitoring-agent.config
+cat "$config_tmp" > /etc/mongodb-mms/automation-agent.config
 rm "$config_tmp"
 
 exec "$@"
