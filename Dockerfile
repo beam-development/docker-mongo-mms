@@ -16,5 +16,5 @@ RUN apt-get update && apt-get install -y libsasl2-2 && rm -rf /var/lib/apt/lists
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["/bin/bash", "/usr/local/bin/docker-entrypoint.sh"]
 
-USER mongodb-mms-agent
-CMD ["mongodb-mms-automation-agent", "-conf", "/etc/mongodb-mms/automation-agent.config"]
+USER mongodb
+CMD ["/opt/mongodb-mms-automation/bin/mongodb-mms-automation-agent", "-f", "/etc/mongodb-mms/automation-agent.config"]
