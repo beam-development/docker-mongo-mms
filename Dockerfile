@@ -14,7 +14,7 @@ RUN wget -O mms.deb "https://cloud.mongodb.com/download/agent/monitoring/mongodb
 RUN apt-get update && apt-get install -y libsasl2-2 && rm -rf /var/lib/apt/lists/*
 
 COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/docker-entrypoint.sh"]
 
 USER mongodb-mms-agent
 CMD ["mongodb-mms-monitoring-agent", "-conf", "/etc/mongodb-mms/monitoring-agent.config"]
