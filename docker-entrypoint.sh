@@ -42,4 +42,11 @@ set_config mmsGroupId "$MMS_GROUP_ID"
 cat "$config_tmp" > /etc/mongodb-mms/automation-agent.config
 rm "$config_tmp"
 
+trap "echo TRAPed signal" HUP INT QUIT TERM
+
 exec "$@"
+
+echo "[hit enter key to exit] or run 'docker stop <container>'"
+read
+
+echo "exited $0"
